@@ -2,6 +2,8 @@
 
 **NOTE: This is an early alpha version. Only works on Linux as of now!**
 
+Follow me on [http://twitter.com/ppati000](Twitter) for news and support!
+
 This tool is for everyone who saved his SHSHs using [TinyUmbrella](http://blog.firmwareumbrella.com/) and is attempting to downgrade his iDevice using [Odysseus](https://dayt0n.github.io/articles/Odysseus/).
 
 TinyUmbrella stores all SHSHs in one file, which does not work with Odysseus. Using this tool, you can generate seperate files for each blob.
