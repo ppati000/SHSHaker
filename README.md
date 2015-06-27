@@ -2,7 +2,7 @@
 
 **NOTE: This is an early alpha version. Only works on Linux as of now!**
 
-Follow me on [http://twitter.com/ppati000](Twitter) for news and support!
+**Follow me on [Twitter](http://twitter.com/ppati000)** for news and support!
 
 This tool is for everyone who saved his SHSHs using [TinyUmbrella](http://blog.firmwareumbrella.com/) and is attempting to downgrade his iDevice using [Odysseus](https://dayt0n.github.io/articles/Odysseus/).
 
@@ -20,10 +20,13 @@ TinyUmbrella stores all SHSHs in one file, which does not work with Odysseus. Us
 
 ### Help ###
 
+If you have any questions or tips:
+
 Twitter: [ppati000](http://twitter.com/ppati000)
 
 [Send me an email](mailto:ppati000@me.com)
 
 ### Todo ###
-* Upload binaries
+* Fix weird filenames if TinyUmbrella has saved multiple SHSHs for one Build
+* Add support for different filenames for Erase and OTA
 * Add stuff to todo
