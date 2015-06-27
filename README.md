@@ -9,10 +9,10 @@ TinyUmbrella stores all SHSHs in one file, which does not work with Odysseus. Us
 ### Instructions ###
 
 * Only works on Linux as of now! Tested on elementary OS 0.3 / Ubuntu 14.04
-* Compile using g++ 4.9 or later using the `-std=c++11` flag
+* Download executable from [here](https://bitbucket.org/ppati000/shshaker/downloads/shshaker) (tested on Ubuntu 14.04 64 bit) or compile main.cpp using g++ 4.9 or later with the `-std=c++11` flag
 * Make sure perl is installed on your computer
 * Make sure `plutil.pl` is in the same directory as the executable
-* get your TinyUmbrella SHSH file, put it in the same directory as the executable and rename it to `blobs.shsh`
+* get your TinyUmbrella SHSH file, place it in the same directory as the executable and rename it to `blobs.shsh`
 * run the executable
 * now you should have all your SHSHs in sperate files. Be sure to validate them using `validate` provided by Odysseus.
 
