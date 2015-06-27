@@ -20,28 +20,22 @@ void convertToPlist();
  * 
  */
 int main(int argc, char** argv) {
+    
     convertToPlist();
     
     ifstream blobPlist;
     blobPlist.open("blobs.plist");
-    cout << "opened" << endl;
     string line;
-    int dictLevel = 0;
-    int lineNumber = 0;
-    vector<int> startLines;
-    vector<int> endLines;
-    vector<int> iOSBuildLines;
+    int dictLevel = 0, lineNumber = 0;
+    vector<int> startLines, endLines, iOSBuildLines;
     vector<string> iOSBuildStrings;
-    bool storeBuildLine = false;
     regex keyRegex ("<key>[A-Z0-9]*</key>");
 
     while (getline(blobPlist, line)) {
+        
         lineNumber++;
+        
         line.erase(remove(line.begin(), line.end(), ' '), line.end());
-        if (storeBuildLine) {
-            iOSBuildStrings.push_back(line);
-            storeBuildLine = false;
-        }
         if (line == "</dict>") {
             dictLevel--;
             if (dictLevel == 2) {
@@ -49,19 +43,21 @@ int main(int argc, char** argv) {
                 endLines.push_back(lineNumber);
             }
         }
-        if (line == "<dict>") {
+        else if (line == "<dict>") {
             dictLevel++;
             if (dictLevel == 3) {
                 cout << "START at line " << lineNumber << endl;
                 startLines.push_back(lineNumber);
             }
         }
-        if (regex_match(line, keyRegex) && dictLevel == 1) {
-                cout << "KEY at line " << lineNumber << endl;
+        else if (regex_match(line, keyRegex) && dictLevel == 1) {
+                cout << "Build key at line " << lineNumber << endl;
                 iOSBuildLines.push_back(lineNumber);
                 
+                /* check how long the build number is. <key></key> are 11 chars.
+                 * so we need to subtract 11 to get the build number's length */
                 int buildLength = line.length() - 11;
-                
+                //extract the build number
                 line = line.substr(5, buildLength);
                 
                 iOSBuildStrings.push_back(line);
@@ -71,26 +67,27 @@ int main(int argc, char** argv) {
     
     blobPlist.close();
     
-    /*Boundaries boundaries [startLines.size()];
-    
-    for (int i = 0; i < startLines.size(); i++) {
-        Boundaries b (startLines[i], endLines[i]);
-        boundaries[i] = b;
-    }*/
-    
     cout << "Done parsing." << endl;
+    cout << "startLines.size(): " << startLines.size() << endl;
+    cout << "endLines.size(): " << endLines.size() << endl;
+    cout << "iOSBuildLines.size(): " << iOSBuildLines.size() << endl;
+    cout << "iOSBuildStrings.size(): " << iOSBuildStrings.size() << endl;
     
-    int buildNameAppearances[iOSBuildLines.size()];
-    
+    vector<int> buildNameAppearances(iOSBuildLines.size());
     for (int i = 0; i < startLines.size(); i++) {
+        
+        cerr << "I IS " << i << endl;
+        
+        int currentStartLine = startLines.at(i);
+        
         ifstream in;
         cout << "starting file" << endl;
-        const int filesizeInLines = endLines[i] - startLines[i];
-        string lines[filesizeInLines];
+        const int filesizeInLines = endLines.at(i) - currentStartLine;
+        vector<string> lines (filesizeInLines);
         in.open("blobs.plist");
         
         //discard lines until reaching the part we want
-        for (int j = 0; j < startLines[i]; j++) {
+        for (int j = 0; j < currentStartLine; j++) {
             getline(in, line);
             //cout << "discarded line " << j << endl;
         }
@@ -98,36 +95,28 @@ int main(int argc, char** argv) {
         //now get our lines
         for (int j = 0; j < filesizeInLines; j++) {
             getline(in, line);
-            lines[j] = line;
-            //cout << "got line " << j << endl;
+            lines.push_back(line);
         }
         
         ofstream out;
-        
-        
-        /*for (int j=0; j< iOSBuildStrings.size();j++){
-            cout << iOSBuildLines[j] << endl;
-        }*/
-        
         string filename;
         bool found = false;
         for (int j = 0; !found; j++) {
             //cout << "startline: " << startLines[i] << endl;
             //cout << "buildline: " << iOSBuildLines[j] << endl;
-            if (startLines[i] < iOSBuildLines[j]) {
+            if (/*j == iOSBuildLines.size() || */currentStartLine < iOSBuildLines.at(j)) {
                 
-                //cout << "FOUND IT";
+                filename = iOSBuildStrings.at(j-1);
                 
-                filename = iOSBuildStrings[j-1];
-                
-                if (buildNameAppearances[j-1] > 0) {
+                if (buildNameAppearances.at(j-1) > 0) {
                     filename += "_";
-                    cout << j-1 << endl;
-                    cout << "file exists " << buildNameAppearances[j-1] << endl;
-                    filename += to_string(buildNameAppearances[j-1]);
+                    cout << "file exists " << buildNameAppearances.at(j-1) << endl;
+                    cout << "build number index: " << j-1 << endl;
+                    cout << "build number: " << iOSBuildStrings.at(j-1) << endl;
+                    filename += to_string(buildNameAppearances.at(j-1));
                 }
                     
-                buildNameAppearances[j-1] += 1;
+                buildNameAppearances.at(j-1) += 1;
                 
                 found = true;
                 
@@ -144,13 +133,13 @@ int main(int argc, char** argv) {
         out << "        <dict>" << endl;
         
         for (int j = 0; j < filesizeInLines; j++){
-            out << lines[j] << endl;
+            out << lines.at(j) << endl;
         }
         
         out << "</plist>";
         
         in.close();
-        
+        out.close();
         
     }
     
