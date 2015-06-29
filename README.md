@@ -29,6 +29,7 @@ Twitter: [ppati000](http://twitter.com/ppati000)
 ### Changelog ###
 
 0.1 beta:
+
 * Fix filenames
 * Add error checking for zcat and perl
 
