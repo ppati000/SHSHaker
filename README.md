@@ -26,6 +26,12 @@ Twitter: [ppati000](http://twitter.com/ppati000)
 
 [Send me an email](mailto:ppati000@me.com)
 
+### Changelog ###
+
+0.1 beta:
+* Fix filenames
+* Add error checking for zcat and perl
+
 ### Todo ###
 * Add support for different filenames for Erase and OTA
 * OS X version
