@@ -30,6 +30,8 @@ int main(int argc, char** argv) {
     vector<int> startLines, endLines, iOSBuildLines;
     vector<string> iOSBuildStrings;
     regex keyRegex ("<key>[A-Z0-9]*</key>");
+    
+    cout << "Parsing blobs.plist" << endl;
 
     while (getline(blobPlist, line)) {
         
@@ -39,19 +41,19 @@ int main(int argc, char** argv) {
         if (line == "</dict>") {
             dictLevel--;
             if (dictLevel == 2) {
-                cout << "END at line " << lineNumber << endl;
+                //cout << "END at line " << lineNumber << endl;
                 endLines.push_back(lineNumber);
             }
         }
         else if (line == "<dict>") {
             dictLevel++;
             if (dictLevel == 3) {
-                cout << "START at line " << lineNumber << endl;
+                //cout << "START at line " << lineNumber << endl;
                 startLines.push_back(lineNumber);
             }
         }
         else if (regex_match(line, keyRegex) && dictLevel == 1) {
-                cout << "Build key at line " << lineNumber << endl;
+                //cout << "Build key at line " << lineNumber << endl;
                 iOSBuildLines.push_back(lineNumber);
                 
                 /* check how long the build number is. <key></key> are 11 chars.
@@ -68,28 +70,32 @@ int main(int argc, char** argv) {
     blobPlist.close();
     
     cout << "Done parsing." << endl;
+    cout << "DEBUG INFORMATION:" << endl;
     cout << "startLines.size(): " << startLines.size() << endl;
     cout << "endLines.size(): " << endLines.size() << endl;
     cout << "iOSBuildLines.size(): " << iOSBuildLines.size() << endl;
     cout << "iOSBuildStrings.size(): " << iOSBuildStrings.size() << endl;
     
-    vector<int> buildNameAppearances(iOSBuildLines.size());
+    vector<int> buildNameAppearances;
+    
+    for (int i = 0; i < iOSBuildStrings.size(); i++) {
+        buildNameAppearances.push_back(0);
+    }
+    
     for (int i = 0; i < startLines.size(); i++) {
         
-        cerr << "I IS " << i << endl;
+        cout << "Starting file " << i << endl;
         
         int currentStartLine = startLines.at(i);
         
         ifstream in;
-        cout << "starting file" << endl;
         const int filesizeInLines = endLines.at(i) - currentStartLine;
-        vector<string> lines (filesizeInLines);
+        vector<string> lines;
         in.open("blobs.plist");
         
         //discard lines until reaching the part we want
         for (int j = 0; j < currentStartLine; j++) {
             getline(in, line);
-            //cout << "discarded line " << j << endl;
         }
         
         //now get our lines
@@ -102,16 +108,13 @@ int main(int argc, char** argv) {
         string filename;
         bool found = false;
         for (int j = 0; !found; j++) {
-            //cout << "startline: " << startLines[i] << endl;
-            //cout << "buildline: " << iOSBuildLines[j] << endl;
-            if (/*j == iOSBuildLines.size() || */currentStartLine < iOSBuildLines.at(j)) {
+            if ( ( j == iOSBuildLines.size() ) || ( currentStartLine < iOSBuildLines.at(j)) ) { 
                 
                 filename = iOSBuildStrings.at(j-1);
                 
                 if (buildNameAppearances.at(j-1) > 0) {
                     filename += "_";
                     cout << "file exists " << buildNameAppearances.at(j-1) << endl;
-                    cout << "build number index: " << j-1 << endl;
                     cout << "build number: " << iOSBuildStrings.at(j-1) << endl;
                     filename += to_string(buildNameAppearances.at(j-1));
                 }
@@ -132,7 +135,7 @@ int main(int argc, char** argv) {
         out << "<plist version=\"1.0\">" << endl;
         out << "        <dict>" << endl;
         
-        for (int j = 0; j < filesizeInLines; j++){
+        for (int j = 0; j < lines.size(); j++){
             out << lines.at(j) << endl;
         }
         
@@ -147,7 +150,30 @@ int main(int argc, char** argv) {
 }
 
 void convertToPlist() {
-    system("zcat blobs.shsh > blobs.plist");
-    system("perl plutil.pl blobs.plist");
+    cout << "Executing zcat blobs.shsh > blobs.plist" << endl;
+    int zcat = system("zcat blobs.shsh > blobs.plist");
+    
+    if ( zcat != 0 ) {
+        cerr << "Error while running zcat (code " << zcat << ")" << endl
+                << "Please make sure to place your SHSH file from TinyUmbrella " 
+                << "in the same directory as the executable and rename it to "
+                << "blobs.shsh :) Or ask for help on twitter.com/ppati000" 
+                << endl;
+        exit (EXIT_FAILURE);
+        
+    }
+    
+    cout << "Executing perl plutil.pl blobs.plist > zcat.log" << endl;
+    int perl = system("perl plutil.pl blobs.plist > plutil.log");
+    
+    if ( perl != 0) {
+        cerr << "Error while running zcat (code " << perl << ")" << endl <<
+                "Please make sure perl is installed on your computer." << 
+                "To do this on Ubuntu, run: sudo apt-get install -y perl" << 
+                endl << "Or ask for help on twitter.com/ppati000";
+        exit (EXIT_FAILURE);
+    }
+    
+    cout << "Done executing commands." << endl;
 }
 
