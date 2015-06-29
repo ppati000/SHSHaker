@@ -1,6 +1,6 @@
 # SHSHaker #
 
-**SHSHaker beta 0.1 is out! Get it [here](https://bitbucket.org/ppati000/shshaker/downloads/SHSHaker-beta-0.1-linux.zip)!**
+**SHSHaker beta 0.1 is out! Get it [here](https://bitbucket.org/ppati000/shshaker/downloads/SHSHaker-beta-0.1-linux.zip)!** (Linux only as of now)
 
 **Follow me on [Twitter](http://twitter.com/ppati000)** for news and support!
 
