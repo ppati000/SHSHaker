@@ -164,8 +164,15 @@ void convertToPlist() {
     }
     
     cout << "Executing perl plutil.pl blobs.plist > zcat.log" << endl;
-    int perl = system("perl plutil.pl blobs.plist > plutil.log");
     
+#ifdef __linux__
+    int perl = system("perl plutil.pl blobs.plist > plutil.log");
+#elif __APPLE__
+    int perl = system("plutil -convert xml1 blobs.plist");
+#else
+    #error "Could not detect OS X or Linux. Other systems are not supported."
+#endif
+
     if ( perl != 0) {
         cerr << "Error while running zcat (code " << perl << ")" << endl <<
                 "Please make sure perl is installed on your computer." << 
