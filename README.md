@@ -1,6 +1,6 @@
 # SHSHaker #
 
-**SHSHaker beta 0.1 is out! Get it [here](https://bitbucket.org/ppati000/shshaker/downloads/SHSHaker-beta-0.1-linux.zip)!** (Linux only as of now)
+**SHSHaker beta 0.2 is out for Windows and Linux! Get it [here](https://bitbucket.org/ppati000/shshaker/downloads/SHSHaker-beta-0.2-windows.zip)!** (Windows) or [here](https://bitbucket.org/ppati000/shshaker/downloads/SHSHaker-beta-0.2-linux.zip) (Linux)
 
 **Follow me on [Twitter](http://twitter.com/ppati000)** for news and support!
 
@@ -10,13 +10,13 @@ TinyUmbrella stores all SHSHs in one file, which does not work with Odysseus. Us
 
 ### Instructions ###
 
-* Only works on Linux as of now! Tested on elementary OS 0.3 / Ubuntu 14.04
-* Download executable from [here](https://bitbucket.org/ppati000/shshaker/downloads/SHSHaker-beta-0.1-linux.zip) and unzip (tested on Ubuntu 14.04 64 bit) or compile main.cpp using g++ 4.9 or later with the `-std=c++11` flag
-* Make sure perl is installed on your computer
-* Make sure `plutil.pl` is in the same directory as the executable
+* Works on Linux and Windows as of now! Tested on elementary OS 0.3 / Ubuntu 14.04
+* Download executable from above (tested on Ubuntu 14.04 64 bit and Windows 8.1 64 bit) and unzip it or compile main.cpp using g++ 4.9 or later with the `-std=c++11` flag
+* Linux only: Make sure perl is installed on your computer
+* Linux only: Make sure `plutil.pl` is in the same directory as the executable
 * get your TinyUmbrella SHSH file, place it in the same directory as the executable and rename it to `blobs.shsh`
 * run the executable
-* now you should have all your SHSHs in sperate files. Be sure to validate them using `validate` provided by Odysseus.
+* now you should have all your SHSHs in seperate files. Be sure to validate them using `validate` provided by Odysseus.
 
 ### Help ###
 
@@ -27,6 +27,11 @@ Twitter: [ppati000](http://twitter.com/ppati000)
 [Send me an email](mailto:ppati000@me.com)
 
 ### Changelog ###
+
+0.2 beta:
+* Windows support
+* no more to_string
+* experimental compiler support for OS X. Completely untested!
 
 0.1 beta:
 
