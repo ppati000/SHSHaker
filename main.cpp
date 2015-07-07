@@ -163,7 +163,7 @@ string convertToPlist() {
 #else
     cout << "Executing zcat blobs.shsh > blobs.plist" << endl;
     int zcat = system("zcat blobs.shsh > blobs.plist");
-    plistFilename = "blobs.plist"
+    plistFilename = "blobs.plist";
 #endif
     
     if ( zcat != 0 ) {
