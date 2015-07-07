@@ -3,3 +3,6 @@
 *.plist
 *.shsh
 *.log
+blobs
+*.binary
+/nbproject/
