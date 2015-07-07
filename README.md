@@ -1,6 +1,6 @@
 # SHSHaker #
 
-**SHSHaker beta 0.2 is out for Windows and Linux! Get it [here](https://bitbucket.org/ppati000/shshaker/downloads/SHSHaker-beta-0.2-windows.zip)!** (Windows) or [here](https://bitbucket.org/ppati000/shshaker/downloads/SHSHaker-beta-0.2-linux.zip) (Linux)
+**SHSHaker beta 0.2 is out for Windows and Linux! Get it [here](https://bitbucket.org/ppati000/shshaker/downloads/SHSHaker-beta-0.2-windows.zip)!** (Windows) or **[here](https://bitbucket.org/ppati000/shshaker/downloads/SHSHaker-beta-0.2-linux.zip)** (Linux)
 
 **Follow me on [Twitter](http://twitter.com/ppati000)** for news and support!
 
