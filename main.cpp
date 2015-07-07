@@ -14,24 +14,24 @@
 #include <regex>
 
 using namespace std;
-void convertToPlist();
+string convertToPlist();
 
 /*
  * 
  */
 int main(int argc, char** argv) {
     
-    convertToPlist();
+    string plistFilename = convertToPlist();
     
     ifstream blobPlist;
-    blobPlist.open("blobs.plist");
+    blobPlist.open(plistFilename);
     string line;
     int dictLevel = 0, lineNumber = 0;
     vector<int> startLines, endLines, iOSBuildLines;
     vector<string> iOSBuildStrings;
     regex keyRegex ("<key>[A-Z0-9]*</key>");
     
-    cout << "Parsing blobs.plist" << endl;
+    cout << "Parsing " << plistFilename  << endl;
 
     while (getline(blobPlist, line)) {
         
@@ -91,7 +91,7 @@ int main(int argc, char** argv) {
         ifstream in;
         const int filesizeInLines = endLines.at(i) - currentStartLine;
         vector<string> lines;
-        in.open("blobs.plist");
+        in.open(plistFilename);
         
         //discard lines until reaching the part we want
         for (int j = 0; j < currentStartLine; j++) {
@@ -116,7 +116,10 @@ int main(int argc, char** argv) {
                     filename += "_";
                     cout << "file exists " << buildNameAppearances.at(j-1) << endl;
                     cout << "build number: " << iOSBuildStrings.at(j-1) << endl;
-                    filename += to_string(buildNameAppearances.at(j-1));
+                    stringstream ss;
+                    ss << buildNameAppearances.at(j - 1);
+                    string str = ss.str();
+                    filename += str;
                 }
                     
                 buildNameAppearances.at(j-1) += 1;
@@ -149,9 +152,19 @@ int main(int argc, char** argv) {
     return 0;
 }
 
-void convertToPlist() {
+string convertToPlist() {
+    
+    string plistFilename;
+    
+#if defined(__CYGWIN__) || defined(_WIN32)
+    cout << "Executing ./7za.exe e blobs.shsh -y" << endl;
+    int zcat = system("./7za.exe e blobs.shsh -y");
+    plistFilename = "blobs";
+#else
     cout << "Executing zcat blobs.shsh > blobs.plist" << endl;
     int zcat = system("zcat blobs.shsh > blobs.plist");
+    plistFilename = "blobs.plist";
+#endif
     
     if ( zcat != 0 ) {
         cerr << "Error while running zcat (code " << zcat << ")" << endl
@@ -164,8 +177,19 @@ void convertToPlist() {
     }
     
     cout << "Executing perl plutil.pl blobs.plist > zcat.log" << endl;
-    int perl = system("perl plutil.pl blobs.plist > plutil.log");
     
+#if defined(__linux__)
+    int perl = system((string("perl plutil.pl ") + plistFilename
+                + string(" > plutil.log")).c_str());
+#elif __APPLE__
+    int perl = system("plutil -convert xml1 blobs.plist");
+#elif defined(__CYGWIN__) || defined(_WIN32)
+    cout << "Executed 7za, no need for plutil.";
+    int perl = 0;
+#else
+    #error "Could not detect OS X or Linux. Other systems are not supported."
+#endif
+
     if ( perl != 0) {
         cerr << "Error while running zcat (code " << perl << ")" << endl <<
                 "Please make sure perl is installed on your computer." << 
@@ -175,5 +199,7 @@ void convertToPlist() {
     }
     
     cout << "Done executing commands." << endl;
+    
+    return plistFilename;
 }
 
