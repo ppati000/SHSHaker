@@ -159,7 +159,7 @@ string convertToPlist() {
     
 #if defined(__CYGWIN__) || defined(_WIN32)
     cout << "Executing ./7za.exe e blobs.shsh -y" << endl;
-    int zcat = system("start 7za.exe e blobs.shsh -y");
+    int zcat = system("7za.exe e blobs.shsh -y");
     plistFilename = "blobs";
 #else
     cout << "Executing zcat blobs.shsh > blobs.plist" << endl;
@@ -185,7 +185,7 @@ string convertToPlist() {
 #elif __APPLE__
     int perl = system("plutil -convert xml1 blobs.plist");
 #elif defined(__CYGWIN__) || defined(_WIN32)
-    cout << "Executed 7za, no need for plutil.";
+    cout << "Executed 7za, no need for plutil." << endl;
     int perl = 0;
 #else
     #error "Could not detect OS X or Linux. Other systems are not supported."
