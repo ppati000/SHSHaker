@@ -12,6 +12,7 @@
 #include <vector>
 #include <string>
 #include <regex>
+#include <sstream>
 
 using namespace std;
 string convertToPlist();
@@ -158,7 +159,7 @@ string convertToPlist() {
     
 #if defined(__CYGWIN__) || defined(_WIN32)
     cout << "Executing ./7za.exe e blobs.shsh -y" << endl;
-    int zcat = system("./7za.exe e blobs.shsh -y");
+    int zcat = system("start 7za.exe e blobs.shsh -y");
     plistFilename = "blobs";
 #else
     cout << "Executing zcat blobs.shsh > blobs.plist" << endl;
