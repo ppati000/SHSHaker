@@ -150,6 +150,9 @@ int main(int argc, char** argv) {
         
     }
     
+    cout << "Your SHSH files have been extracted successfully." << endl <<
+            "For any questions, contact me on twitter.com/ppati000 :)" << endl;
+    
     return 0;
 }
 
@@ -161,6 +164,10 @@ string convertToPlist() {
     cout << "Executing ./7za.exe e blobs.shsh -y" << endl;
     int zcat = system("7za.exe e blobs.shsh -y");
     plistFilename = "blobs";
+#elif __APPLE__
+    cout << "Executing gunzip -c blobs.shsh > blobs.plist" << endl;
+    int zcat = system("gunzip -c blobs.shsh > blobs.plist");
+    plistFilename = "blobs.plist";
 #else
     cout << "Executing zcat blobs.shsh > blobs.plist" << endl;
     int zcat = system("zcat blobs.shsh > blobs.plist");
@@ -177,22 +184,19 @@ string convertToPlist() {
         
     }
     
-    cout << "Executing perl plutil.pl blobs.plist > zcat.log" << endl;
-    
 #if defined(__linux__)
+    cout << "Executing perl plutil.pl blobs.plist > zcat.log" << endl;
     int perl = system((string("perl plutil.pl ") + plistFilename
                 + string(" > plutil.log")).c_str());
-#elif __APPLE__
-    int perl = system("plutil -convert xml1 blobs.plist");
-#elif defined(__CYGWIN__) || defined(_WIN32)
-    cout << "Executed 7za, no need for plutil." << endl;
+#elif defined(__CYGWIN__) || defined(_WIN32) || defined(__APPLE__)
+    cout << "File is good, no need for plutil." << endl;
     int perl = 0;
 #else
     #error "Could not detect OS X or Linux. Other systems are not supported."
 #endif
 
     if ( perl != 0) {
-        cerr << "Error while running zcat (code " << perl << ")" << endl <<
+        cerr << "Error while running plutlil.pl (code " << perl << ")" << endl <<
                 "Please make sure perl is installed on your computer." << 
                 "To do this on Ubuntu, run: sudo apt-get install -y perl" << 
                 endl << "Or ask for help on twitter.com/ppati000";
