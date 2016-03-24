@@ -42,14 +42,14 @@ int main(int argc, char** argv) {
         if (line == "</dict>") {
             dictLevel--;
             if (dictLevel == 2) {
-                //cout << "END at line " << lineNumber << endl;
+                cout << "END at line " << lineNumber << endl;
                 endLines.push_back(lineNumber);
             }
         }
         else if (line == "<dict>") {
             dictLevel++;
             if (dictLevel == 3) {
-                //cout << "START at line " << lineNumber << endl;
+                cout << "START at line " << lineNumber << endl;
                 startLines.push_back(lineNumber);
             }
         }
@@ -165,8 +165,8 @@ string convertToPlist() {
     int zcat = system("7za.exe e blobs.shsh -y");
     plistFilename = "blobs";
 #elif __APPLE__
-    cout << "Executing gunzip -c blobs.shsh > blobs.plist" << endl;
-    int zcat = system("gunzip -c blobs.shsh > blobs.plist");
+    cout << "Executing zcat < blobs.shsh > blobs.plist" << endl;
+    int zcat = system("zcat < blobs.shsh > blobs.plist");
     plistFilename = "blobs.plist";
 #else
     cout << "Executing zcat blobs.shsh > blobs.plist" << endl;
