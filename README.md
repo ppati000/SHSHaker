@@ -1,6 +1,6 @@
 # SHSHaker #
 
-**SHSHaker beta 0.2.3 is out for OS X, Windows and Linux! Get it [here](https://github.com/ppati000/SHSHaker/releases)!
+**SHSHaker beta 0.2.3 is out for OS X, Windows and Linux! Get it [here](https://github.com/ppati000/SHSHaker/releases)!**
 
 **Follow me on [Twitter](http://twitter.com/ppati000)** for news and support!
 
