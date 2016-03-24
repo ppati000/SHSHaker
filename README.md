@@ -1,6 +1,6 @@
 # SHSHaker #
 
-**SHSHaker beta 0.2.2 is out for Windows and Linux! Get it [here](https://bitbucket.org/ppati000/shshaker/downloads/SHSHaker-beta-0.2.2-windows.zip)!** (Windows) or **[here](https://bitbucket.org/ppati000/shshaker/downloads/SHSHaker-beta-0.2.2-linux.zip)** (Linux)
+**SHSHaker beta 0.2.3 is out for OS X, Windows and Linux! Get it [here](https://github.com/ppati000/SHSHaker/releases)!
 
 **Follow me on [Twitter](http://twitter.com/ppati000)** for news and support!
 
@@ -10,13 +10,11 @@ TinyUmbrella stores all SHSHs in one file, which does not work with Odysseus. Us
 
 ### Instructions ###
 
-* Works on Linux and Windows as of now! Tested on elementary OS 0.3 / Ubuntu 14.04
-* Download executable from above (tested on Ubuntu 14.04 64 bit and Windows 8.1 64 bit) and unzip it or compile main.cpp using g++ 4.9 or later with the `-std=c++11` flag
-* Linux only: Make sure perl is installed on your computer
-* Linux only: Make sure `plutil.pl` is in the same directory as the executable
-* get your TinyUmbrella SHSH file, place it in the same directory as the executable and rename it to `blobs.shsh`
-* run the executable
-* now you should have all your SHSHs in seperate files. Be sure to validate them using `validate` provided by Odysseus.
+1. Get the download for your operating system
+2. Unzip the file
+3. Place your TinyUmbrella SHSH file in the same directory as the executable and rename it to blobs.shsh
+4. Run the executeble **from Terminal** using ./shshaker (Double clicking does NOT work, at least on OS X)
+5. Be sure to validate the generated SHSH files before using them with Odyseus.
 
 ### Help ###
 
@@ -27,6 +25,10 @@ Twitter: [ppati000](http://twitter.com/ppati000)
 [Send me an email](mailto:ppati000@me.com)
 
 ### Changelog ###
+
+0.2.3 beta:
+
+* Add OS X compatibility
 
 0.2.2 beta:
 
